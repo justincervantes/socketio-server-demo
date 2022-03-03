@@ -16,7 +16,7 @@ io.on('connection', (socket) => {
 });
 
 function emitEvent() {
-	const message = `Server event emitted at ${moment().format('h:mm:ssa MMMM Do, YYYY')}`;
+	const message = `Server event emitted at ${moment().format('h:mm:ssa MMMM Do, YYYY')} UTC`;
 	io.emit('server-event', message);
 	setTimeout(emitEvent, 10 * 1000);
 }
