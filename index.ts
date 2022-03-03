@@ -2,17 +2,21 @@ const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const moment = require('moment');
-
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer, { /* options */ });
+const io = new Server(httpServer, {
+	cors: {
+		origin: '*',
+		methods: ['GET', 'POST']
+	}
+});
 
 io.on('connection', (socket) => {
 	socket.emit('new-connection', `${socket.id} has joined the fray!`);
 });
 
 function emitEvent() {
-	const message = `Server event emitted at ${moment().format('h:mma MMMM Do, YYYY')}`;
+	const message = `Server event emitted at ${moment().format('h:mm:ssa MMMM Do, YYYY')}`;
 	io.emit('server-event', message);
 	setTimeout(emitEvent, 10 * 1000);
 }
